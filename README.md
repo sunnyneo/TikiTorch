@@ -8,22 +8,39 @@
   |_|     |_| |_\_\   |_|   |_|    \___/ |_|   \__|  |_||_| 
 ```
 
-## Intro
+TikiTorch was named in homage to [CACTUSTORCH](https://github.com/vysecurity/CACTUSTORCH) by [Vincent Yiu](https://twitter.com/vysecurity).  The basic concept of CACTUSTORCH is that it spawns a new process, allocates a region of memory, then uses `CreateRemoteThread` to run the desired shellcode within that target process.  Both the process and shellcode are specified by the user.
 
-TikiTorch was named in homage to [CACTUSTORCH](https://github.com/vysecurity/CACTUSTORCH) by [Vincent Yui](https://twitter.com/vysecurity).  The basic concept of CACTUSTORCH is that it spawns a new process, then uses `CreateRemoteThread` to run the desired shellcode within that target process.  Both the process and shellcode are specified by the user.
+This is pretty flexible as it allows an operator to run an HTTP agent in a process such as `iexplore.exe`, rather than something more arbitrary like `rundll32` or `powershell`.
 
-This is pretty flexible as it allows an operator to run an HTTP agent in a process such as `iexplore.exe`, rather than something more arbitrary like `rundll32.exe`.
+TikiTorch follows the same concept but has multiple types of process injection available, which can be specified by the user at compile time.
 
-TikiTorch follows the same concept but uses `Process Hollowing` techniques instead of `CRT`.  I found an interesting implementation that seems to avoid calls to certain functions that are synonymous with hollowing, such as `VirtualAllocEx` and `SetThreadContext`.  I have no idea if this will help the longevity of the tool 🤷
+## Projects
 
-## Usage
+`TikiTorch` is a Visual Basic solution, split into 8 projects.
 
-The C# is included here if you want to compile the DLL and run it through DotNetToJScript yourself.  Otherwise, simply take the pre-made `TikiTorch_x64.js` / `TikiTorch_x86.js` templates and replace `var targetProcess` and `var encodedShellcode` with your desired values.
+- TikiLoader
+- TikiSpawn
+- TikiSpawnAs
+- TikiSpawnElevated
+- TikiCpl
+- TikiService
+- TikiThings
+- TikiVader
 
-TikiTorch works with `x86` & `x64` architectures and `staged` & `stageless` payloads.
+In the first instance, please see the [Wiki](https://github.com/rasta-mouse/TikiTorch/wiki) for usage instructions.
 
 ## Credits
 
-- Aaron for [Loader.cs](https://github.com/ambray/ProcessHollowing/blob/master/ShellLoader/Loader.cs)
-- [James Foreshaw](https://twitter.com/tiraniddo) for [DotNetToJScript](https://github.com/tyranid/DotNetToJScript)
-- [Vincent Yui](https://twitter.com/vysecurity) for inspiration
+- Aaron Bray for [Loader.cs](https://github.com/ambray/ProcessHollowing/blob/master/ShellLoader/Loader.cs)
+- [James Foreshaw](https://twitter.com/tiraniddo) for C# advice
+- [Vincent Yiu](https://twitter.com/vysecurity) for inspiration
+- [Kevin Mitnick](@kevinmitnick) for letting me test in his lab
+- [Steve Borosh](https://twitter.com/424f424f) for TikiCpl
+- [Casey Smith](https://twitter.com/subTee) for [AllTheThings](https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1117/src/AllTheThings.cs)
+- [Marcus Gelderman](https://gist.github.com/marcgeld) for [psCompress.ps1](https://gist.github.com/marcgeld/bfacfd8d70b34fdf1db0022508b02aca)
+- [Will Schroeder](https://twitter.com/harmj0y) for [Seatbelt](https://github.com/GhostPack/Seatbelt)
+
+## Further Reading
+
+- https://rastamouse.me/tags/tikitorch/
+- https://www.rythmstick.net/posts/tikitorch/
